@@ -1,3 +1,3 @@
 #!/bin/sh
 set -e
-exec mono CUETools.ARCUE.exe "$@"
+exec mono /app/CUETools.ARCUE.exe "$@"
