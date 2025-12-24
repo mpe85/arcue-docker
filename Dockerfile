@@ -2,7 +2,7 @@ FROM debian:trixie-slim
 
 ARG VERSION="2.2.6"
 
-WORKDIR /app
+WORKDIR /opt/cuetools
 VOLUME /data
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
