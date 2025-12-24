@@ -5,14 +5,15 @@ SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 ARG VERSION="2.2.6"
 ARG FILENAME="CUETools_${VERSION}.zip"
 ARG DOWNLOAD_URL="https://github.com/gchudov/cuetools.net/releases/download/v${VERSION}"
+ARG CURL_FLAGS="-sSL --retry 3 --retry-delay 5 --retry-connrefused"
 
 WORKDIR /build
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ca-certificates curl libarchive-tools
 
-RUN curl -sSL -O "${DOWNLOAD_URL}/${FILENAME}" && \
-    curl -sSL -O "${DOWNLOAD_URL}/${FILENAME}.sha256" && \
+RUN curl ${CURL_FLAGS} -O "${DOWNLOAD_URL}/${FILENAME}" && \
+    curl ${CURL_FLAGS} -O "${DOWNLOAD_URL}/${FILENAME}.sha256" && \
     sha256sum -c "${FILENAME}.sha256" && \
     bsdtar -xf "${FILENAME}" --strip-components=1 && \
     rm "${FILENAME}" "${FILENAME}.sha256" && \
