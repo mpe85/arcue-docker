@@ -23,7 +23,10 @@ FROM debian:trixie-slim
 
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
-WORKDIR /opt/cuetools
+RUN groupadd -g 1000 arcue && \
+    useradd -u 1000 -g arcue -m -d /home/arcue arcue
+
+WORKDIR /opt/arcue
 VOLUME /data
 
 RUN apt-get update && \
@@ -31,10 +34,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /build /opt/cuetools
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY --from=builder --chown=arcue:arcue /build /opt/arcue
 
 WORKDIR /data
+USER arcue
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["mono", "/opt/arcue/CUETools.ARCUE.exe"]
