@@ -25,7 +25,7 @@ FROM debian:trixie-slim
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
 RUN groupadd -g 1000 arcue && \
-    useradd -u 1000 -g arcue -m -d /home/arcue arcue
+    useradd -u 1000 -g arcue -M -d /nonexistent -s /usr/sbin/nologin arcue
 
 WORKDIR /opt/arcue
 VOLUME /data
